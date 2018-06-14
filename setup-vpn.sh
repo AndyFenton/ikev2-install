@@ -6,8 +6,8 @@
 
 # == Then run this script
 # wget https://raw.githubusercontent.com/AndyFenton/ikev2-install/master/setup-vpn.sh
-# chmod u+x setup.sh
-# ./setup.sh
+# chmod u+x setup-vpn.sh
+# ./setup-vpn.sh
 
 echo
 echo "=== https://github.com/jawj/IKEv2-setup ==="
@@ -123,8 +123,8 @@ iptables -A INPUT -i lo -j ACCEPT
 iptables -A INPUT -m state --state INVALID -j DROP
 
 # rate-limit repeated new requests from same IP to any ports
-iptables -I INPUT -i $ETH0ORSIMILAR -m state --state NEW -m recent --set
-iptables -I INPUT -i $ETH0ORSIMILAR -m state --state NEW -m recent --update --seconds 60 --hitcount 12 -j DROP
+# iptables -I INPUT -i $ETH0ORSIMILAR -m state --state NEW -m recent --set
+# iptables -I INPUT -i $ETH0ORSIMILAR -m state --state NEW -m recent --update --seconds 60 --hitcount 12 -j DROP
 
 # accept (non-standard) SSH
 iptables -A INPUT -p tcp --dport $SSHPORT -j ACCEPT
@@ -135,6 +135,12 @@ iptables -A INPUT -p tcp --dport $SSHPORT -j ACCEPT
 # accept IPSec/NAT-T for VPN (ESP not needed with forceencaps, as ESP goes inside UDP)
 iptables -A INPUT -p udp --dport  500 -j ACCEPT
 iptables -A INPUT -p udp --dport 4500 -j ACCEPT
+
+# HTTP 
+
+iptables -A INPUT -p tcp -m tcp --sport 8000 -j ACCEPT
+iptables -A OUTPUT -p tcp -m tcp --dport 8000 -j ACCEPT 
+
 
 # forward VPN traffic anywhere
 iptables -A FORWARD --match policy --pol ipsec --dir in  --proto esp -s $VPNIPPOOL -j ACCEPT
