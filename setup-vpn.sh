@@ -5,7 +5,7 @@
 # do-release-upgrade
 
 # == Then run this script
-# wget https://raw.githubusercontent.com/jawj/IKEv2-setup/master/setup.sh
+# wget https://raw.githubusercontent.com/AndyFenton/ikev2-install/master/setup-vpn.sh
 # chmod u+x setup.sh
 # ./setup.sh
 
