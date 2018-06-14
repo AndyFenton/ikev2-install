@@ -138,8 +138,7 @@ iptables -A INPUT -p udp --dport 4500 -j ACCEPT
 
 # HTTP 
 
-iptables -A INPUT -p tcp -m tcp --sport 8000 -j ACCEPT
-iptables -A OUTPUT -p tcp -m tcp --dport 8000 -j ACCEPT 
+iptables -I INPUT 2 -p tcp -m state --state NEW -m tcp --dport 8000 -j ACCEPT
 
 
 # forward VPN traffic anywhere
